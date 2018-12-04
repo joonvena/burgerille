@@ -45,7 +45,6 @@ export default class SearchBar extends Component {
 
             }
         }
-
         this.setState(() => ({
             foundRestaurants: restaurants
         }), () => (this.setState({ restaurantWasFound: true }))
