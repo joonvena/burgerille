@@ -1,0 +1,19 @@
+.navbar {
+    margin-bottom: 0 !important;
+}
+
+nav, .navbar-collapse, .collapse, .navbar-header, .navbar-default, .navbar-brand {
+    background-color: #000 !important;
+    background-image: none !important;
+    border-radius: 0 !important;
+    color: #FFF !important;
+    border: 0 !important;
+}
+
+.navbar-default a {
+    color: #FFF !important;
+}
+
+.navbar-default a:hover {
+    color: #CCC !important;
+}

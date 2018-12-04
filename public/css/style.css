@@ -1,0 +1,11 @@
+body {
+    background-color: #fac8bf;
+}
+
+.site_container {
+    background-color: #FFF;
+    border: 1px solid #ddd;
+    margin-top: 100px;
+    border-radius: 5px;
+    margin-bottom: 100px;
+}
