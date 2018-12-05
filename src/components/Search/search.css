@@ -24,3 +24,8 @@ body {
 .restaurant_search_button:hover {
     background-color: #b60000 !important;
 }
+
+.search_results {
+    padding-left: 15px;
+    padding-right: 15px;
+}

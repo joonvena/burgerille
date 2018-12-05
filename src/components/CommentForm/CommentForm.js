@@ -8,21 +8,21 @@ export default class CommentForm extends Component {
         this.state = { 
             nickname: '',
             text: '',
-            restaurantid: ''
+            restaurantid: '',
         }
         this.onNicknameChange = this.onNicknameChange.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
     }
 
-    onNicknameChange(e) {
+    onNicknameChange = e => {
         this.setState({ nickname: e.target.value });
     }
 
-    onTextChange(e) {
+    onTextChange = e => {
         this.setState({ text: e.target.value });
     }
 
-    onSubmit(e) {
+    onSubmit = e => {
         e.preventDefault();
         
         const comment = {
@@ -31,11 +31,11 @@ export default class CommentForm extends Component {
             restaurantid: this.props.restaurant_id._id
         };
 
-        axios.post(`https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurant/addcomment`, comment)
-            .then(res => {
-            console.log(res.status);
-      });
-    }
+        axios
+            .post(`https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurant/addcomment`, comment)
+            .then(res => console.log(res.data))
+            .catch(error => console.log(error))
+      };
 
   render() {
     return (

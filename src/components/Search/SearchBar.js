@@ -10,14 +10,16 @@ export default class SearchBar extends Component {
         restaurantWasFound: false,
         restaurant: null,
         foundRestaurants: [],
-        restaurants: []
+        restaurants: [],
+        isLoading: true,
+        noResults: false
     }
 
     fetchAllRestaurants() {
         axios.get('https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurant/getallrestaurants')
             .then(response => {
                 const restaurants = response.data;
-                this.setState({ restaurants })
+                this.setState({ restaurants, isLoading: false })
             })
     }
 
@@ -36,13 +38,17 @@ export default class SearchBar extends Component {
         let restaurants = [];
         for (var i = 0; i < this.state.restaurants.length; i++) {
             if (this.state.restaurantSelect === this.state.restaurants[i].name) {
+                this.setState({ noResults: false })
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);
             }
             else if (this.state.restaurantSelect === this.state.restaurants[i].city) {
+                this.setState({ noResults: false })
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);
 
+            } else {
+                this.setState({ noResults: true })
             }
         }
         this.setState(() => ({
@@ -53,6 +59,12 @@ export default class SearchBar extends Component {
 
 
     render() {
+
+        if(this.state.isLoading) {
+            return <div><img src="/images/loader.gif" alt="Loading bar" /></div>
+        }
+
+        const results = this.state.noResults;
         return (
             <div>
 
@@ -63,6 +75,7 @@ export default class SearchBar extends Component {
                     <Button type="submit" className="btn restaurant_search_button" onClick={this.searchRestaurant}>Haku</Button>
                 </form>
                 <Row className="show-grid" className="search_results" style={{ 'marginTop': '20px' }}>
+                {results === true && <div><h3>Ei hakutuloksia</h3></div>} 
                     {this.state.foundRestaurants.map(restaurant => {
                         return (
                             <div key={restaurant._id}>

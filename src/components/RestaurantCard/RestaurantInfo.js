@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Modal, Button } from 'react-bootstrap';
+import {Modal, Button, Panel } from 'react-bootstrap';
 import CommentForm from '../CommentForm/CommentForm';
+import Map from '../Map/MapComponent';
 import axios from 'axios';
 
 export default class RestaurantInfo extends Component {
@@ -54,7 +55,20 @@ export default class RestaurantInfo extends Component {
 
     return (
       <div>
-          <h4 onClick={this.openModal}>{this.props.restaurant.name}</h4>
+          <Panel>
+            <Panel.Heading>
+            <Panel.Title componentClass="h3" onClick={this.openModal} style={{ 'cursor': 'pointer' }}>{this.props.restaurant.name}, {this.props.restaurant.address}, {this.props.restaurant.city}</Panel.Title>
+            </Panel.Heading>
+            <Panel.Body>
+            
+            <Map restaurant_address={this.props.restaurant.address} restaurant_city={this.props.restaurant.city}/>
+            
+            </Panel.Body>
+          </Panel>
+
+
+
+
           <Modal show={this.state.showRestaurantModal} onHide={this.handleClose}>
               <Modal.Header closeButton>
                   <Modal.Title>{this.props.restaurant.name}</Modal.Title>
