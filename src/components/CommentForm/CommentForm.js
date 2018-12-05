@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import './commentform.css';
 import { FormControl } from 'react-bootstrap';
+import Rating from 'react-rating';
 
 export default class CommentForm extends Component {
     constructor() {
@@ -9,9 +11,11 @@ export default class CommentForm extends Component {
             nickname: '',
             text: '',
             restaurantid: '',
+            initValue: 0
         }
         this.onNicknameChange = this.onNicknameChange.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     onNicknameChange = e => {
@@ -21,6 +25,12 @@ export default class CommentForm extends Component {
     onTextChange = e => {
         this.setState({ text: e.target.value });
     }
+
+    handleClick = e => {
+        console.log(e)
+        this.setState({initValue: e});
+      }
+
 
     onSubmit = e => {
         e.preventDefault();
@@ -37,6 +47,7 @@ export default class CommentForm extends Component {
             .catch(error => console.log(error))
       };
 
+   
   render() {
     return (
       
@@ -46,7 +57,7 @@ export default class CommentForm extends Component {
            <FormControl
             type="text"
             name="nickname"
-            className="search_form"
+            className="add_restaurant_input"
             value={this.state.value}
             placeholder="Nimimerkki"
             onChange={this.onNicknameChange}
@@ -54,7 +65,7 @@ export default class CommentForm extends Component {
           <FormControl
             type="text"
             name="text"
-            className="search_form"
+            className="add_restaurant_input"
             value={this.state.value}
             placeholder="Lyhyt arvio"
             onChange={this.onTextChange}
@@ -67,7 +78,9 @@ export default class CommentForm extends Component {
             placeholder="id"
             onChange={this.onIdChange}
            readOnly/>
-          <button type="submit" className="submit_button">Lisää kommentti</button>
+           <Rating {...this.props} initialRating={this.state.value} onClick={this.handleClick.bind(this)} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-3x"
+                                        fullSymbol="fa fa-star fa-3x" />
+          <button type="submit" className="restaurant_add_button">Lisää kommentti</button>
             </form>
         
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Panel } from 'react-bootstrap';
+import { Modal, Button, Panel, Row, Col } from 'react-bootstrap';
 import CommentForm from '../CommentForm/CommentForm';
 import Map from '../Map/MapComponent';
 import './restaurantcard.css';
@@ -13,7 +13,8 @@ export default class RestaurantInfo extends Component {
         commentsAreFound: false,
         showRestaurantModal: false,
         showCommentModal: false,
-        average: []
+        average: [],
+        commentAverages: []
     }
 
     openModal = () => {
@@ -50,7 +51,6 @@ export default class RestaurantInfo extends Component {
         axios.get(url)
             .then(response => {
                 this.setState({ comments: response.data[0].comments, commentsAreFound: true })
-
             })
     }
 
@@ -68,54 +68,71 @@ export default class RestaurantInfo extends Component {
                 <div>
                     <p><b>{comment.nickname}</b></p>
                     <p>{comment.text}</p>
+                    <p><Rating initialRating={comment.grade} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
+                                        fullSymbol="fa fa-star fa-2x" /></p>
+                <hr />
                 </div>
             )
         })
         return this.state.average.map((average) => {
-        return (
-            <div>
-                <Panel>
-                    <Panel.Heading className="restaurant_card_header">
-                        <Panel.Title componentClass="h3" onClick={this.openModal} style={{ 'cursor': 'pointer' }}>{this.props.restaurant.name}, {this.props.restaurant.address}, {this.props.restaurant.city}</Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body>
-                    <Rating initialRating={average.average} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
-                            fullSymbol="fa fa-star fa-2x" />
-                        <Map restaurant_address={this.props.restaurant.address} restaurant_city={this.props.restaurant.city} />
+            return (
+                <div>
+                    <Panel>
+                        <Panel.Heading className="restaurant_card_header">
+                            <Panel.Title componentClass="h3" onClick={this.openModal} style={{ 'cursor': 'pointer' }}>{this.props.restaurant.name}, {this.props.restaurant.address}, {this.props.restaurant.city}</Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body>
+                            <Rating initialRating={average.average} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
+                                fullSymbol="fa fa-star fa-2x" />
+                            <Map restaurant_address={this.props.restaurant.address} restaurant_city={this.props.restaurant.city} />
 
-                    </Panel.Body>
-                </Panel>
-
-
+                        </Panel.Body>
+                    </Panel>
 
 
-                <Modal show={this.state.showRestaurantModal} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.props.restaurant.name}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <h4>{this.props.restaurant.address}</h4>
-                        <Button onClick={this.openCommentModal}>Kommentit</Button>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
-                <Modal show={this.state.showCommentModal} onHide={this.handleCommentClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.props.restaurant.name}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {comments}
-                        <CommentForm restaurant_id={this.props.restaurant} />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.handleCommentClose}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
+
+
+                    <Modal show={this.state.showRestaurantModal} onHide={this.handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title style={{ 'fontSize': '23px' }}>{this.props.restaurant.name}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Row className="show-grid">
+                                <Col xs={12} md={7} className="restaurant_info">
+                                    <h3 className="restaurant_card_h3">Yhteystiedot</h3>
+                                    <h4><b>Osoite:</b> {this.props.restaurant.address}</h4>
+                                    <h4><b>Kaupunki:</b> {this.props.restaurant.city}</h4>
+                                    <h4><b>Puhelin:</b> {this.props.restaurant.phone}</h4>
+                                    <hr />
+                                    <h3 className="restaurant_card_h3">Arvostelut</h3>
+                                    <h4><b>Hampurilainen:</b></h4> <Rating initialRating={average.average} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
+                                        fullSymbol="fa fa-star fa-2x" />
+                                    <h4><b>Lisukkeet:</b></h4> <Rating initialRating={average.average} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
+                                        fullSymbol="fa fa-star fa-2x" />
+                                    <h4><b>Ravintola:</b></h4> <Rating initialRating={average.average} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
+                                        fullSymbol="fa fa-star fa-2x" />
+                                </Col>
+                                <Col xs={12} md={5}>
+                                    <Map restaurant_address={this.props.restaurant.address} restaurant_city={this.props.restaurant.city} />
+                                </Col>
+                            </Row>
+
+                            <Button className="restaurant_comments_button" onClick={this.openCommentModal}>Kommentit ({this.state.comments.length})</Button>
+
+                        </Modal.Body>
+                    </Modal>
+                    <Modal show={this.state.showCommentModal} onHide={this.handleCommentClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>{this.props.restaurant.name}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {comments}
+                            <CommentForm restaurant_id={this.props.restaurant} />
+                        </Modal.Body>
+                    </Modal>
+                </div>
+            )
+        }
         )
     }
-        )   
-}
 }
