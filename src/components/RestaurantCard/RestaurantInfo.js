@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Modal, Button, Popover, OverlayTrigger} from 'react-bootstrap';
+import {Modal, Button } from 'react-bootstrap';
+import CommentForm from '../CommentForm/CommentForm';
 import axios from 'axios';
 
 export default class RestaurantInfo extends Component {
@@ -72,6 +73,7 @@ export default class RestaurantInfo extends Component {
               </Modal.Header>
               <Modal.Body>
                   {comments}
+                  <CommentForm restaurant_id={this.props.restaurant} />
               </Modal.Body>
               <Modal.Footer>
                   <Button onClick={this.handleCommentClose}>Close</Button>
