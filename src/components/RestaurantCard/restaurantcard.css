@@ -1,0 +1,14 @@
+.panel-default>.panel-heading {
+    background-color: #FFF !important;
+    background-image: none !important;
+    margin-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.panel-title {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+}
