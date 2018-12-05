@@ -37,17 +37,11 @@ export default class SearchBar extends Component {
         event.preventDefault()
         let restaurants = [];
         for (var i = 0; i < this.state.restaurants.length; i++) {
-            if (this.state.restaurantSelect === this.state.restaurants[i].name) {
-                this.setState({ noResults: false })
+            if (this.state.restaurants[i].name.toLowerCase().indexOf(this.state.restaurantSelect) !== -1) {
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);
             }
-            else if (this.state.restaurantSelect === this.state.restaurants[i].city) {
-                this.setState({ noResults: false })
-                let restaurant = this.state.restaurants[i];
-                restaurants.push(restaurant);
-
-            } else {
+            else {
                 this.setState({ noResults: true })
             }
         }
@@ -75,7 +69,7 @@ export default class SearchBar extends Component {
                     <Button type="submit" className="btn restaurant_search_button" onClick={this.searchRestaurant}>Haku</Button>
                 </form>
                 <Row className="show-grid" className="search_results" style={{ 'marginTop': '20px' }}>
-                {results === true && <div><h3>Ei hakutuloksia</h3></div>} 
+                
                     {this.state.foundRestaurants.map(restaurant => {
                         return (
                             <div key={restaurant._id}>
