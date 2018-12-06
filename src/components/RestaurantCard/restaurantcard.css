@@ -41,3 +41,46 @@
 .restaurant_card_h3 {
     margin-top: 0 !important;
 }
+
+.pagination {
+    background-color: none;
+}
+
+.pagination li a {
+    background-color: #a50000;
+    color: #FFF;
+}
+
+.pagination>.active>a {
+    background-color: #d10000 !important;
+    border: 1px solid #a50000;
+}
+
+.pagination li a:hover {
+    background-color: #d10000;
+    color: #FFF;
+}
+
+.pagination li.first {
+    background-color: #FFF;
+    display: none;
+}
+
+.pagination li.last {
+    background-color: #FFF;
+    display: none;
+}
+
+.pagination li.previous {
+    background-color: #FFF;
+    display: none;
+}
+
+.pagination li.next {
+    background-color: #FFF;
+    display: none;
+}
+
+.pagination li.page-number {
+    color: #000;
+}

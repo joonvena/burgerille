@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button, Panel, Row, Col } from 'react-bootstrap';
 import CommentForm from '../CommentForm/CommentForm';
 import Map from '../Map/MapComponent';
+import JwPagination from 'jw-react-pagination';
 import './restaurantcard.css';
 import Rating from 'react-rating';
 import axios from 'axios';
@@ -16,7 +17,13 @@ export default class RestaurantInfo extends Component {
         average: [],
         commentAverages: [],
         isLoading: true,
-        serverError: false
+        serverError: false,
+        pageOfItems: []
+    }
+
+    onChangePage = (pageOfItems) => {
+        // update local state with new page of items
+        this.setState({ pageOfItems });
     }
     
 
@@ -154,7 +161,17 @@ export default class RestaurantInfo extends Component {
                             <Modal.Title>{this.props.restaurant.name}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {comments}
+                           
+                            {this.state.pageOfItems.map(comments =>
+                                <div key={comments._id}>
+                                <p><b>{comments.nickname}</b></p>
+                                <p>{comments.text}</p>
+                                <p><Rating initialRating={comments.grade} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
+                                                    fullSymbol="fa fa-star fa-2x" /></p>
+                            <hr />
+                            </div>
+                            )}
+                            <JwPagination disableDefaultStyles={true} pageSize={5} items={this.state.comments} onChangePage={this.onChangePage} />
                             <CommentForm restaurant_id={this.props.restaurant} fetchComments={this.fetchRestaurantComments} restaurantid={this.props.restaurant._id}/>
                         </Modal.Body>
                     </Modal>

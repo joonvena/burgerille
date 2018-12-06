@@ -5,10 +5,12 @@
   "dependencies": {
     "axios": "^0.18.0",
     "google-maps-react": "^2.0.2",
+    "jw-react-pagination": "^1.0.7",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.3",
     "react-geocode": "^0.1.2",
+    "react-js-pagination": "^3.0.2",
     "react-notifications": "^1.4.3",
     "react-rating": "^1.6.0",
     "react-router-dom": "^4.3.1",
