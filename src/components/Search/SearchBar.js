@@ -76,6 +76,7 @@ export default class SearchBar extends Component {
             <div>
 
                 <img src="/images/burger_review.png" alt="burger header" className="header_logo" />
+                <h1>BurgerLoversFinland</h1>
                 <form>
                     <FormControl type="text" className="search_bar" placeholder="Hae ravintolaa" onInput={(event) => this.handleInput(event.target.value)} />
                     <br />

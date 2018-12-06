@@ -43,7 +43,7 @@ export default class NavigationBar extends Component {
             </Modal.Body>
             </Modal>
 
-           <Navbar fluid collapseOnSelect>
+           <Navbar fluid collapseOnSelect fixedTop>
                 <Navbar.Header>
                     <Navbar.Brand>
                       <Link to="/">BurgerLoversFinland</Link>

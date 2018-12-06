@@ -2,6 +2,12 @@ body {
     text-align: center;
 }
 
+h1 {
+    font-weight: bold;
+    font-family: 'Oswald', sans-serif;
+    margin-top: 0;
+}
+
 .search_bar {
     margin-top: 20px;
     padding: 30px;
