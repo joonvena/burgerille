@@ -10,11 +10,11 @@ ReactDOM.render(
     <BrowserRouter>
 
         <div>
-            
+
             <Navigation />
 
             <Grid fluid>
-                <Row className="show-grid">
+                <Row className="show-grid" style={{ 'height': '100vh' }}>
                     <Col xs={12} sm={3} />
 
                     <Col xs={12} sm={6} className="site_container">

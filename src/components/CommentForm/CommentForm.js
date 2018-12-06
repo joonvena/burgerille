@@ -51,6 +51,7 @@ export default class CommentForm extends Component {
                 console.log(res)
             }).catch(error =>  {
                 this.getComments();
+                this.setState({ nickname: '', text: '', initValue: 3 })
             })
       };
 
@@ -84,7 +85,7 @@ export default class CommentForm extends Component {
             type="text"
             name="nickname"
             className="add_restaurant_input"
-            value={this.state.value}
+            value={this.state.nickname}
             placeholder="Nimimerkki"
             onChange={this.onNicknameChange}
           />
@@ -93,7 +94,7 @@ export default class CommentForm extends Component {
             type="text"
             name="text"
             className="add_restaurant_input"
-            value={this.state.value}
+            value={this.state.text}
             placeholder="Lyhyt arvio"
             onChange={this.onTextChange}
           />
