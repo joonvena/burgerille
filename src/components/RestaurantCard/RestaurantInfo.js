@@ -88,6 +88,7 @@ export default class RestaurantInfo extends Component {
             return <div><h3>Palvelimeen ei saatu yhteyttä</h3></div>
         }
 
+
         let comments;
         comments = this.state.comments.map((comment) => {
             return (
@@ -123,6 +124,7 @@ export default class RestaurantInfo extends Component {
                             <Modal.Title style={{ 'fontSize': '23px' }}>{this.props.restaurant.name}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                            
                             <Row className="show-grid">
                                 <Col xs={12} md={7} className="restaurant_info">
                                     <h3 className="restaurant_card_h3">Yhteystiedot</h3>

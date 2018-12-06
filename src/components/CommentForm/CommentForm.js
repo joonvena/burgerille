@@ -4,6 +4,7 @@ import './commentform.css';
 import { FormControl, Button, Alert } from 'react-bootstrap';
 import Rating from 'react-rating';
 
+
 export default class CommentForm extends Component {
     constructor() {
         super();
@@ -11,7 +12,8 @@ export default class CommentForm extends Component {
             nickname: '',
             text: '',
             restaurantid: '',
-            initValue: 3
+            initValue: 3,
+            showSuccessMessage: false
         }
         this.onNicknameChange = this.onNicknameChange.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
@@ -51,7 +53,12 @@ export default class CommentForm extends Component {
                 console.log(res)
             }).catch(error =>  {
                 this.getComments();
-                this.setState({ nickname: '', text: '', initValue: 3 })
+                this.setState({ nickname: '', text: '', initValue: 3, showSuccessMessage: true })
+                window.setTimeout(() => {
+                    this.setState({
+                      showSuccessMessage: false
+                    });
+                  }, 2000);
             })
       };
 
@@ -61,6 +68,7 @@ export default class CommentForm extends Component {
     let SubmitButton;
     let Nickvalidate;
     let MessageValidate;
+    let PostSuccess;
 
     if(this.state.nickname.length < 3) {
         SubmitButton = <Button type="submit" className="restaurant_add_button" disabled>Lisää kommentti</Button>
@@ -76,9 +84,17 @@ export default class CommentForm extends Component {
         MessageValidate =  <Alert bsStyle="danger"><b>Viestin pituus vähintään 5 merkkiä</b></Alert>
     }
 
+    if(this.state.showSuccessMessage) {
+        PostSuccess = <Alert bsStyle="success"><b>Kommentti lisätty!</b></Alert>
+    }
+
     return (
+
+        
       
       <div>
+
+          {PostSuccess}
 
            <form onSubmit={this.onSubmit.bind(this)}>
            <FormControl
