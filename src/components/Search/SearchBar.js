@@ -12,7 +12,8 @@ export default class SearchBar extends Component {
         foundRestaurants: [],
         restaurants: [],
         isLoading: true,
-        noResults: false
+        noResults: false,
+        serverError: false
     }
 
     fetchAllRestaurants() {
@@ -20,6 +21,8 @@ export default class SearchBar extends Component {
             .then(response => {
                 const restaurants = response.data;
                 this.setState({ restaurants, isLoading: false })
+            }).catch( error => {
+                this.setState({ isLoading: false, serverError: true })
             })
     }
 
@@ -62,6 +65,10 @@ export default class SearchBar extends Component {
 
         if(this.state.isLoading) {
             return <div><img src="/images/loader.gif" alt="Loading bar" /></div>
+        }
+
+        if(this.state.serverError) {
+            return <div><h3>Palvelimeen ei saatu yhteyttä</h3></div>
         }
 
         const results = this.state.noResults;

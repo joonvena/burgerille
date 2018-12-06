@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import './commentform.css';
-import { FormControl } from 'react-bootstrap';
+import { FormControl, Button, Alert } from 'react-bootstrap';
 import Rating from 'react-rating';
 
 export default class CommentForm extends Component {
@@ -11,11 +11,12 @@ export default class CommentForm extends Component {
             nickname: '',
             text: '',
             restaurantid: '',
-            initValue: 0
+            initValue: 3
         }
         this.onNicknameChange = this.onNicknameChange.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        
     }
 
     onNicknameChange = e => {
@@ -27,10 +28,12 @@ export default class CommentForm extends Component {
     }
 
     handleClick = e => {
-        console.log(e)
         this.setState({initValue: e});
       }
 
+    getComments() {
+        this.props.fetchComments(this.props.restaurantid)
+    }
 
     onSubmit = e => {
         e.preventDefault();
@@ -38,17 +41,40 @@ export default class CommentForm extends Component {
         const comment = {
             nickname: this.state.nickname,
             text: this.state.text,
-            restaurantid: this.props.restaurant_id._id
+            restaurantid: this.props.restaurant_id._id,
+            grade: this.state.initValue
         };
 
         axios
             .post(`https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurant/addcomment`, comment)
-            .then(res => console.log(res.data))
-            .catch(error => console.log(error))
+            .then(res =>  {
+                console.log(res)
+            }).catch(error =>  {
+                this.getComments();
+            })
       };
 
    
   render() {
+
+    let SubmitButton;
+    let Nickvalidate;
+    let MessageValidate;
+
+    if(this.state.nickname.length < 3) {
+        SubmitButton = <Button type="submit" className="restaurant_add_button" disabled>Lisää kommentti</Button>
+    } else {
+        SubmitButton = <Button type="submit" className="restaurant_add_button">Lisää kommentti</Button>
+    }
+
+    if(this.state.nickname.length > 0 && this.state.nickname.length < 4) {
+        Nickvalidate = <Alert bsStyle="danger"><b>Nimimerkin pituus vähintään 4 merkkiä</b></Alert>
+    }
+
+    if(this.state.text.length > 0 && this.state.text.length < 5) {
+        MessageValidate =  <Alert bsStyle="danger"><b>Viestin pituus vähintään 5 merkkiä</b></Alert>
+    }
+
     return (
       
       <div>
@@ -62,6 +88,7 @@ export default class CommentForm extends Component {
             placeholder="Nimimerkki"
             onChange={this.onNicknameChange}
           />
+          {Nickvalidate}
           <FormControl
             type="text"
             name="text"
@@ -70,6 +97,7 @@ export default class CommentForm extends Component {
             placeholder="Lyhyt arvio"
             onChange={this.onTextChange}
           />
+          {MessageValidate}
           <FormControl
             type="hidden"
             name="restaurantid"
@@ -78,9 +106,9 @@ export default class CommentForm extends Component {
             placeholder="id"
             onChange={this.onIdChange}
            readOnly/>
-           <Rating {...this.props} initialRating={this.state.value} onClick={this.handleClick.bind(this)} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-3x"
+           <Rating {...this.props} initialRating={this.state.initValue} onClick={this.handleClick.bind(this)} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-3x"
                                         fullSymbol="fa fa-star fa-3x" />
-          <button type="submit" className="restaurant_add_button">Lisää kommentti</button>
+            {SubmitButton}
             </form>
         
       </div>

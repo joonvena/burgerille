@@ -14,8 +14,11 @@ export default class RestaurantInfo extends Component {
         showRestaurantModal: false,
         showCommentModal: false,
         average: [],
-        commentAverages: []
+        commentAverages: [],
+        isLoading: true,
+        serverError: false
     }
+    
 
     openModal = () => {
         if (this.state.commentsAreFound) {
@@ -41,16 +44,31 @@ export default class RestaurantInfo extends Component {
         let url = 'https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/getActualAverage/' + id;
         axios.get(url)
             .then(response => {
-                this.setState({ average: response.data })
+                this.setState({ average: response.data, isLoading: false })
+            }).catch( error => {
+                this.setState({ serverError: true, isLoading: false })
             })
     }
+
+    fetchRestaurantComments = (id) => {
+        let url = 'https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurants/' + id;
+        axios.get(url)
+            .then(response => {
+                this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
+            }).catch( error => {
+                this.setState({ serverError: true, isLoading: false })
+            })
+    }
+
 
     fetchRestaurantById() {
         let id = (this.props.restaurant._id)
         let url = 'https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurants/' + id;
         axios.get(url)
             .then(response => {
-                this.setState({ comments: response.data[0].comments, commentsAreFound: true })
+                this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
+            }).catch( error => {
+                this.setState({ serverError: true, isLoading: false })
             })
     }
 
@@ -62,10 +80,18 @@ export default class RestaurantInfo extends Component {
 
     render() {
 
+        if(this.state.isLoading) {
+            return <div><img src="/images/loader.gif" alt="Loading bar" /></div>
+        }
+
+        if(this.state.serverError) {
+            return <div><h3>Palvelimeen ei saatu yhteyttä</h3></div>
+        }
+
         let comments;
         comments = this.state.comments.map((comment) => {
             return (
-                <div>
+                <div key={comment._id}>
                     <p><b>{comment.nickname}</b></p>
                     <p>{comment.text}</p>
                     <p><Rating initialRating={comment.grade} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
@@ -76,7 +102,7 @@ export default class RestaurantInfo extends Component {
         })
         return this.state.average.map((average) => {
             return (
-                <div>
+                <div key={average._id}>
                     <Panel>
                         <Panel.Heading className="restaurant_card_header">
                             <Panel.Title componentClass="h3" onClick={this.openModal} style={{ 'cursor': 'pointer' }}>{this.props.restaurant.name}, {this.props.restaurant.address}, {this.props.restaurant.city}</Panel.Title>
@@ -127,7 +153,7 @@ export default class RestaurantInfo extends Component {
                         </Modal.Header>
                         <Modal.Body>
                             {comments}
-                            <CommentForm restaurant_id={this.props.restaurant} />
+                            <CommentForm restaurant_id={this.props.restaurant} fetchComments={this.fetchRestaurantComments} restaurantid={this.props.restaurant._id}/>
                         </Modal.Body>
                     </Modal>
                 </div>
