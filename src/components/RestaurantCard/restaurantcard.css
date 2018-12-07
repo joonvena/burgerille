@@ -33,7 +33,10 @@
 
 }
 
-
+.loaderImg{
+    height: 150px;
+    width: auto;
+}
 .restaurant_info {
     text-align: left;
 }

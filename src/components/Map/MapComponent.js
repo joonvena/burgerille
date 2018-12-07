@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import Geocode from 'react-geocode';
 import './map.css';
-import {mapiApi, geoApi} from '../../env/keys';
+import {mapiApi, geoApi} from '../env/keys';
 
 export class MapComponent extends Component {
     constructor() {

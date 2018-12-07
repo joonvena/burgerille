@@ -64,7 +64,7 @@ export default class SearchBar extends Component {
     render() {
 
         if(this.state.isLoading) {
-            return <div><img src="/images/loader.gif" alt="Loading bar" /></div>
+            return <div><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
         }
 
         if(this.state.serverError) {
@@ -75,7 +75,7 @@ export default class SearchBar extends Component {
         return (
             <div>
 
-                <img src="/images/burger_review.png" alt="burger header" className="header_logo" />
+                <img className="burgerKing" src="/images/burger_review.png" alt="burger header"/>
                 <h1>BurgerLoversFinland</h1>
                 <form>
                     <FormControl type="text" className="search_bar" placeholder="Hae ravintolaa" onInput={(event) => this.handleInput(event.target.value)} />

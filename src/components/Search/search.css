@@ -15,6 +15,16 @@ h1 {
     font-size: 20px;
 }
 
+.searchImg {
+    height: 200px;
+    width: auto;
+}
+
+.burgerKing{
+    height: 200px;
+    width: auto;
+}
+
 .restaurant_search_button {
     text-decoration: none !important;
     border: 0 !important;

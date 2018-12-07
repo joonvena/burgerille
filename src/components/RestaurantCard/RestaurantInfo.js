@@ -61,7 +61,8 @@ export default class RestaurantInfo extends Component {
         let url = 'https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurants/' + id;
         axios.get(url)
             .then(response => {
-                this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
+
+                this.setState({ comments: response.data[0].reverse(), commentsAreFound: true, isLoading: false })
             }).catch( error => {
                 this.setState({ serverError: true, isLoading: false })
             })
@@ -73,7 +74,7 @@ export default class RestaurantInfo extends Component {
         let url = 'https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurants/' + id;
         axios.get(url)
             .then(response => {
-                this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
+                this.setState({ comments: response.data[0].comments.reverse(), commentsAreFound: true, isLoading: false })
             }).catch( error => {
                 this.setState({ serverError: true, isLoading: false })
             })
@@ -88,7 +89,7 @@ export default class RestaurantInfo extends Component {
     render() {
 
         if(this.state.isLoading) {
-            return <div><img src="/images/loader.gif" alt="Loading bar" /></div>
+            return <div><img className="loaderImg" src="/images/loader.gif" alt="Loading bar" /></div>
         }
 
         if(this.state.serverError) {
