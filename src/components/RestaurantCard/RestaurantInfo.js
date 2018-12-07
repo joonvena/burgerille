@@ -61,8 +61,7 @@ export default class RestaurantInfo extends Component {
         let url = 'https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurants/' + id;
         axios.get(url)
             .then(response => {
-
-                this.setState({ comments: response.data[0].reverse(), commentsAreFound: true, isLoading: false })
+                this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
             }).catch( error => {
                 this.setState({ serverError: true, isLoading: false })
             })
@@ -74,7 +73,7 @@ export default class RestaurantInfo extends Component {
         let url = 'https://7b9gsutr00.execute-api.us-east-1.amazonaws.com/dev/restaurants/' + id;
         axios.get(url)
             .then(response => {
-                this.setState({ comments: response.data[0].comments.reverse(), commentsAreFound: true, isLoading: false })
+                this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
             }).catch( error => {
                 this.setState({ serverError: true, isLoading: false })
             })
@@ -159,7 +158,7 @@ export default class RestaurantInfo extends Component {
                             <hr />
                             </div>
                             )}
-                            <JwPagination disableDefaultStyles={true} pageSize={5} items={this.state.comments} onChangePage={this.onChangePage} />
+                            <JwPagination disableDefaultStyles={true} pageSize={5} items={this.state.comments.reverse()} onChangePage={this.onChangePage} />
                             <CommentForm restaurant_id={this.props.restaurant} fetchComments={this.fetchRestaurantComments} restaurantid={this.props.restaurant._id}/>
                         </Modal.Body>
                     </Modal>
