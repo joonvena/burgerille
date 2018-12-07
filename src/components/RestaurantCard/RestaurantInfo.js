@@ -87,6 +87,9 @@ export default class RestaurantInfo extends Component {
 
     render() {
 
+        let commentsReve;
+        let reverseComments;
+
         if(this.state.isLoading) {
             return <div><img src="/images/loader.gif" alt="Loading bar" /></div>
         }
@@ -95,19 +98,10 @@ export default class RestaurantInfo extends Component {
             return <div><h3>Palvelimeen ei saatu yhteyttä</h3></div>
         }
 
+        commentsReve = [...this.state.comments]
 
-        let comments;
-        comments = this.state.comments.map((comment) => {
-            return (
-                <div key={comment._id}>
-                    <p><b>{comment.nickname}</b></p>
-                    <p>{comment.text}</p>
-                    <p><Rating initialRating={comment.grade} readonly={true} style={{ 'color': '#ffd942', 'marginBottom': '15px' }} emptySymbol="fa fa-star-o fa-2x"
-                                        fullSymbol="fa fa-star fa-2x" /></p>
-                <hr />
-                </div>
-            )
-        })
+        reverseComments = [...this.state.pageOfItems]
+
         return this.state.average.map((average) => {
             return (
                 <div key={average._id}>
@@ -162,7 +156,7 @@ export default class RestaurantInfo extends Component {
                         </Modal.Header>
                         <Modal.Body>
                            
-                            {this.state.pageOfItems.map(comments =>
+                            {reverseComments.map(comments =>
                                 <div key={comments._id}>
                                 <p><b>{comments.nickname}</b></p>
                                 <p>{comments.text}</p>

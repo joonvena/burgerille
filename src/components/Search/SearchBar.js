@@ -40,7 +40,7 @@ export default class SearchBar extends Component {
         event.preventDefault()
         let restaurants = [];
         for (var i = 0; i < this.state.restaurants.length; i++) {
-            if (this.state.restaurantSelect === this.state.restaurants[i].name) {
+            if (this.state.restaurantSelect.toLower === this.state.restaurants[i].name) {
                 this.setState({ noResults: false })
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);

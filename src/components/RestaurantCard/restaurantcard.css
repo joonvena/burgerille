@@ -73,14 +73,13 @@
 
 .pagination li.previous {
     background-color: #FFF;
-    display: none;
 }
 
 .pagination li.next {
     background-color: #FFF;
-    display: none;
 }
 
 .pagination li.page-number {
     color: #000;
+    display: none;
 }
