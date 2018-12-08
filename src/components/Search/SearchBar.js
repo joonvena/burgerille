@@ -64,7 +64,7 @@ export default class SearchBar extends Component {
     render() {
 
         if(this.state.isLoading) {
-            return <div><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
+            return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
         }
 
         if(this.state.serverError) {
