@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import './commentform.css';
-import { FormControl, Button, Alert } from 'react-bootstrap';
+import { FormControl, Button, Alert, FormGroup } from 'react-bootstrap';
 import Rating from 'react-rating';
 
 
@@ -13,7 +13,8 @@ export default class CommentForm extends Component {
             text: '',
             restaurantid: '',
             initValue: 3,
-            showSuccessMessage: false
+            showSuccessMessage: false,
+            postingComment: false
         }
         this.onNicknameChange = this.onNicknameChange.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
@@ -37,9 +38,23 @@ export default class CommentForm extends Component {
         this.props.fetchComments(this.props.restaurantid)
     }
 
+    getValidationStateName() {
+        const namelength = this.state.nickname.length;
+        if (namelength > 0 && namelength < 4) return 'error';
+        else if (namelength >= 4) return 'success';
+        return null;
+      }
+    
+    getValidationStateText() {
+        const textlength = this.state.text.length;
+        if(textlength > 0 && textlength < 4) return 'error';
+        else if (textlength >= 4) return 'success';
+        return null
+    }
+
     onSubmit = e => {
+        this.setState({ postingComment: true });
         e.preventDefault();
-        
         const comment = {
             nickname: this.state.nickname,
             text: this.state.text,
@@ -53,12 +68,13 @@ export default class CommentForm extends Component {
                 console.log(res)
             }).catch(error =>  {
                 this.getComments();
-                this.setState({ nickname: '', text: '', initValue: 3, showSuccessMessage: true })
+                this.setState({ nickname: '', text: '', initValue: 3, showSuccessMessage: true, postingComment: false })
                 window.setTimeout(() => {
                     this.setState({
                       showSuccessMessage: false
                     });
                   }, 2000);
+                window.scrollTo(0, 0);
             })
       };
 
@@ -70,18 +86,14 @@ export default class CommentForm extends Component {
     let MessageValidate;
     let PostSuccess;
 
-    if(this.state.nickname.length < 3) {
+    if(this.state.postingComment) {
+        return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
+    }
+
+    if(this.state.nickname.length < 3 || this.state.text.length < 4) {
         SubmitButton = <Button type="submit" className="restaurant_add_button" disabled>Lisää kommentti</Button>
     } else {
         SubmitButton = <Button type="submit" className="restaurant_add_button">Lisää kommentti</Button>
-    }
-
-    if(this.state.nickname.length > 0 && this.state.nickname.length < 4) {
-        Nickvalidate = <Alert bsStyle="danger"><b>Nimimerkin pituus vähintään 4 merkkiä</b></Alert>
-    }
-
-    if(this.state.text.length > 0 && this.state.text.length < 5) {
-        MessageValidate =  <Alert bsStyle="danger"><b>Viestin pituus vähintään 5 merkkiä</b></Alert>
     }
 
     if(this.state.showSuccessMessage) {
@@ -97,6 +109,7 @@ export default class CommentForm extends Component {
           {PostSuccess}
 
            <form onSubmit={this.onSubmit.bind(this)}>
+           <FormGroup controlId="formValidationError4" validationState={this.getValidationStateName()}>
            <FormControl
             type="text"
             name="nickname"
@@ -105,7 +118,10 @@ export default class CommentForm extends Component {
             placeholder="Nimimerkki"
             onChange={this.onNicknameChange}
           />
-          {Nickvalidate}
+          <FormControl.Feedback />
+          </FormGroup>
+
+           <FormGroup controlId="formValidationError4" validationState={this.getValidationStateText()}>
           <FormControl
             type="text"
             name="text"
@@ -114,7 +130,9 @@ export default class CommentForm extends Component {
             placeholder="Lyhyt arvio"
             onChange={this.onTextChange}
           />
-          {MessageValidate}
+          <FormControl.Feedback />
+          </FormGroup>
+
           <FormControl
             type="hidden"
             name="restaurantid"

@@ -13,7 +13,8 @@ export default class SearchBar extends Component {
         restaurants: [],
         isLoading: true,
         noResults: false,
-        serverError: false
+        serverError: false,
+        loadingResults: false
     }
 
     fetchAllRestaurants() {
@@ -36,11 +37,11 @@ export default class SearchBar extends Component {
         }))
     }
 
-    searchRestaurant = (event) => {
+    searchRestaurant = (event) => {  
         event.preventDefault()
         let restaurants = [];
         for (var i = 0; i < this.state.restaurants.length; i++) {
-            if (this.state.restaurantSelect.toLower === this.state.restaurants[i].name) {
+            if (this.state.restaurantSelect === this.state.restaurants[i].name) {
                 this.setState({ noResults: false })
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);
@@ -49,19 +50,24 @@ export default class SearchBar extends Component {
                 this.setState({ noResults: false })
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);
-
-            } else {
+            }
+            else {
                 this.setState({ noResults: true })
             }
         }
         this.setState(() => ({
-            foundRestaurants: restaurants
+            foundRestaurants: restaurants,
         }), () => (this.setState({ restaurantWasFound: true }))
         )
+     
     }
 
 
     render() {
+
+        if(this.state.loadingResults) {
+            return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
+        }
 
         if(this.state.isLoading) {
             return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
