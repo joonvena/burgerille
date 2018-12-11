@@ -74,7 +74,6 @@ export default class CommentForm extends Component {
                       showSuccessMessage: false
                     });
                   }, 2000);
-                window.scrollTo(0, 0);
             })
       };
 
@@ -86,10 +85,6 @@ export default class CommentForm extends Component {
     let MessageValidate;
     let PostSuccess;
 
-    if(this.state.postingComment) {
-        return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
-    }
-
     if(this.state.nickname.length < 3 || this.state.text.length < 4) {
         SubmitButton = <Button type="submit" className="restaurant_add_button" disabled>Lisää kommentti</Button>
     } else {
@@ -98,6 +93,10 @@ export default class CommentForm extends Component {
 
     if(this.state.showSuccessMessage) {
         PostSuccess = <Alert bsStyle="success"><b>Kommentti lisätty!</b></Alert>
+    }
+
+    if(this.state.postingComment) {
+        SubmitButton = <Button type="submit" className="restaurant_add_button" disabled>Lisätään kommenttia...</Button>
     }
 
     return (
