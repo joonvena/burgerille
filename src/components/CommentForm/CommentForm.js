@@ -16,21 +16,18 @@ export default class CommentForm extends Component {
             showSuccessMessage: false,
             postingComment: false
         }
-        this.onNicknameChange = this.onNicknameChange.bind(this);
-        this.onTextChange = this.onTextChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
         
     }
 
-    onNicknameChange = e => {
+    onNicknameChange = (e) => {
         this.setState({ nickname: e.target.value });
     }
 
-    onTextChange = e => {
+    onTextChange = (e) => {
         this.setState({ text: e.target.value });
     }
 
-    handleClick = e => {
+    handleClick = (e) => {
         this.setState({initValue: e});
       }
 

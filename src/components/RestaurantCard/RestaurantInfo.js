@@ -62,6 +62,7 @@ export default class RestaurantInfo extends Component {
         axios.get(url)
             .then(response => {
                 this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
+            window.scrollTo(0, 0);
             }).catch( error => {
                 this.setState({ serverError: true, isLoading: false })
             })
@@ -84,6 +85,8 @@ export default class RestaurantInfo extends Component {
         this.fetchRestaurantById();
         this.fetchRatings();
     }
+
+    
 
     render() {
 

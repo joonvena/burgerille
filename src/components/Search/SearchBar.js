@@ -13,8 +13,7 @@ export default class SearchBar extends Component {
         restaurants: [],
         isLoading: true,
         noResults: false,
-        serverError: false,
-        loadingResults: false
+        serverError: false
     }
 
     fetchAllRestaurants() {
@@ -62,13 +61,20 @@ export default class SearchBar extends Component {
      
     }
 
+    compare(a, b) {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+
+        let comparison = 0;
+        if (nameA > nameB) {
+            comparison = 1;
+        } else if (nameA < nameB) {
+            comparison = -1;
+        }
+        return comparison;
+    }
 
     render() {
-
-        if(this.state.loadingResults) {
-            return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
-        }
-
         if(this.state.isLoading) {
             return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
         }
@@ -77,7 +83,7 @@ export default class SearchBar extends Component {
             return <div><h3>Palvelimeen ei saatu yhteyttä</h3></div>
         }
 
-        const results = this.state.noResults;
+        const noResults = this.state.noResults;
         return (
             <div>
 
@@ -89,11 +95,11 @@ export default class SearchBar extends Component {
                     <Button type="submit" className="btn restaurant_search_button" onClick={this.searchRestaurant}>Haku</Button>
                 </form>
                 <Row className="show-grid" className="search_results" style={{ 'marginTop': '20px' }}>
-                {results === true && <div><h3>Ei hakutuloksia</h3></div>} 
-                    {this.state.foundRestaurants.map(restaurant => {
+                {noResults === true && <div><h3>Ei hakutuloksia</h3></div>} 
+                    {this.state.foundRestaurants.sort(this.compare).map(restaurant => {
                         return (
                             <div key={restaurant._id}>
-                                <RestaurantCard restaurant_found={true} restaurant={restaurant} />
+                                <RestaurantCard  restaurant_found={true} restaurant={restaurant} />
                             </div>
                         )
                     })}
