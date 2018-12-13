@@ -3,6 +3,8 @@ import axios from 'axios';
 import './search.css';
 import { FormControl, Button, Row } from 'react-bootstrap';
 import RestaurantCard from '../RestaurantCard/RestaurantInfo';
+import Autosuggest from 'react-autosuggest';
+
 
 export default class SearchBar extends Component {
     state = {
@@ -41,14 +43,14 @@ export default class SearchBar extends Component {
         let restaurants = [];
         for (var i = 0; i < this.state.restaurants.length; i++) {
             if (this.state.restaurantSelect === this.state.restaurants[i].name) {
-                this.setState({ noResults: false })
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);
             }
             else if (this.state.restaurantSelect === this.state.restaurants[i].city) {
-                this.setState({ noResults: false })
                 let restaurant = this.state.restaurants[i];
                 restaurants.push(restaurant);
+            } else if (restaurants.length > 0) {
+                this.setState({ noResults: false });
             }
             else {
                 this.setState({ noResults: true })
@@ -75,6 +77,9 @@ export default class SearchBar extends Component {
     }
 
     render() {
+
+        let noResult;
+
         if(this.state.isLoading) {
             return <div className="loading"><img className="searchImg" src="/images/loader.gif" alt="Loading bar" /></div>
         }
@@ -83,7 +88,11 @@ export default class SearchBar extends Component {
             return <div><h3>Palvelimeen ei saatu yhteyttä</h3></div>
         }
 
-        const noResults = this.state.noResults;
+        if(this.state.noResults) {
+            noResult = <h2>Ei tuloksia</h2>
+        } else {
+            noResult = null;
+        }
         return (
             <div>
 
@@ -95,7 +104,7 @@ export default class SearchBar extends Component {
                     <Button type="submit" className="btn restaurant_search_button" onClick={this.searchRestaurant}>Haku</Button>
                 </form>
                 <Row className="show-grid" className="search_results" style={{ 'marginTop': '20px' }}>
-                {noResults === true && <div><h3>Ei hakutuloksia</h3></div>} 
+                {noResult}
                     {this.state.foundRestaurants.sort(this.compare).map(restaurant => {
                         return (
                             <div key={restaurant._id}>

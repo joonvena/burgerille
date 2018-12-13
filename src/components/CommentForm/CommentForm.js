@@ -97,7 +97,6 @@ export default class CommentForm extends Component {
     }
 
     return (
-
         
       
       <div>
