@@ -5,6 +5,7 @@ import Map from '../Map/MapComponent';
 import JwPagination from 'jw-react-pagination';
 import './restaurantcard.css';
 import Rating from 'react-rating';
+import Chart from '../Chart/Chart';
 import axios from 'axios';
 
 export default class RestaurantInfo extends Component {
@@ -140,6 +141,12 @@ export default class RestaurantInfo extends Component {
                                 <Col xs={12} md={5}>
                                     <Map restaurant_address={this.props.restaurant.address} restaurant_city={this.props.restaurant.city} />
                                 </Col>
+                            </Row>
+
+                            <Row className="show-grid">
+                            <Col xs={12} md={12}>
+                            <Chart grades={this.state.comments}/>
+                            </Col>
                             </Row>
 
                             <Button className="restaurant_comments_button" onClick={this.openCommentModal}>Kommentit ({this.state.comments.length})</Button>
