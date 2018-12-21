@@ -78,8 +78,6 @@ export default class CommentForm extends Component {
   render() {
 
     let SubmitButton;
-    let Nickvalidate;
-    let MessageValidate;
     let PostSuccess;
 
     if(this.state.nickname.length < 3 || this.state.text.length < 4) {

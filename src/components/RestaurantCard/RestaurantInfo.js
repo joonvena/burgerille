@@ -7,6 +7,7 @@ import './restaurantcard.css';
 import Rating from 'react-rating';
 import axios from 'axios';
 
+
 export default class RestaurantInfo extends Component {
 
     state = {
@@ -62,7 +63,6 @@ export default class RestaurantInfo extends Component {
         axios.get(url)
             .then(response => {
                 this.setState({ comments: response.data[0].comments, commentsAreFound: true, isLoading: false })
-            window.scrollTo(0, 0);
             }).catch( error => {
                 this.setState({ serverError: true, isLoading: false })
             })
@@ -146,6 +146,7 @@ export default class RestaurantInfo extends Component {
 
                         </Modal.Body>
                     </Modal>
+                    
                     <Modal show={this.state.showCommentModal} onHide={this.handleCommentClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>{this.props.restaurant.name}</Modal.Title>
@@ -165,6 +166,7 @@ export default class RestaurantInfo extends Component {
                             <CommentForm restaurant_id={this.props.restaurant} fetchComments={this.fetchRestaurantComments} restaurantid={this.props.restaurant._id}/>
                         </Modal.Body>
                     </Modal>
+                    
                 </div>
             )
         }

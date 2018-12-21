@@ -7,6 +7,8 @@ import FrontPage from './components/Search/SearchBar';
 import Navigation from './components/Navigation/NavigationBar';
 
 ReactDOM.render(
+
+    
     <BrowserRouter>
 
         <div>
@@ -20,7 +22,9 @@ ReactDOM.render(
                     <Col xs={12} sm={6} className="site_container">
 
                         <Switch>
-                        <Route path="/" component={FrontPage}/> 
+                          
+                        <Route path="/" component={FrontPage}/>
+                           
                         </Switch>
 
                     </Col>
